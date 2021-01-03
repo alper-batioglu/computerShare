@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <style>
+            body{
+                background-color: grey;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            window.addEventListener("message", (ev) => {
+                debugger;
+                console.log(ev.origin);
+                console.log(ev.data);
+                ev.data.replyFrom = "ic";
+                ev.returnValue = ev.data;
+                return ev.data;
+            });
+            function sendMessage(){
+                const targetWindow = parent;
+                const retVal = targetWindow.postMessage({x:5, y:6, self:"ic"}, "http://127.0.0.1:5500");
+                debugger;
+            }
+        </script>
+        <input type="button" onclick="sendMessage()"/>
+    </body>
+</html>

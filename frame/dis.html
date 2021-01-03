@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <style>
+            body{
+                background-color: darkslategrey;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            window.addEventListener("message", (ev) => {
+                console.log(ev.origin);
+                console.log(ev.data);
+                ev.data.replyFrom = "dis";
+                ev.returnValue = ev.data;
+                return ev.data;
+            });
+            function sendMessage(){
+                const targetWindow = document.getElementsByTagName("iframe")[0].contentWindow;
+                const retVal = targetWindow.postMessage({x:5, y:6, self:"dis"}, "http://127.0.0.1:5501");
+            }
+        </script>
+        <input type="button" onclick="sendMessage()"/>
+        <iframe src="http://127.0.0.1:5501/frame/ic.html"></iframe>
+    </body>
+</html>

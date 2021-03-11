@@ -1,0 +1,24 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
+</head>
+
+<body style="font-size:50;">
+    <div style="text-align: center;" id="guess">Guess</div>
+    <div style="text-align: center;">
+        <button onclick="min = lastGuess; makeGuess(); ">👆</button>
+        <button onclick="max =lastGuess; makeGuess();">👇</button>
+    </div>
+</body>
+<script>
+    var get = document.getElementById.bind(document);
+    var max = 101, min = 0, lastGuess;
+    function makeGuess() {
+        var sum = max + min
+        get("guess").innerHTML = lastGuess = Math.floor(sum / 2);
+    }
+    makeGuess();
+</script>
+
+</html>

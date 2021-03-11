@@ -1,0 +1,56 @@
+<html>
+    <head>
+        <style>
+            body{
+                background-color: blue;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            function send(data){
+                const targetWindow = parent;
+                targetWindow.postMessage(data, "http://localhost:3005");
+            }
+            function trigger(event, params){
+                send({type: "trigger", event, params});
+            }
+
+            var curModel;
+            window.addEventListener("message", (ev) => {
+                const textArea = document.getElementsByTagName("textarea")[0];
+                const messageBroker = {
+                    "retrieveTempModel": message => {
+                        const model = {
+                            value: textArea.value,
+                            scrollTop: textArea.scrollTop,
+                            selectionStart: textArea.selectionStart,
+                            selectionEnd: textArea.selectionEnd,
+                        };
+                        curModel.model = model;
+                        trigger("tempModel", curModel);
+                    },
+                    "openModel": message => {
+                        curModel = message.model; //interface IModel { id: string, model: any, name: string, type: IdeType };
+                        textArea.value = curModel.model.value;
+                        textArea.scrollTop = curModel.model.scrollTop;
+                        textArea.selectionStart = curModel.model.selectionStart;
+                        textArea.selectionEnd = curModel.model.selectionEnd;
+                        textArea.blur();
+                        textArea.focus();
+                    }
+                };
+                console.log("modul 1 reciv Msg", ev.origin, ev.data);
+                messageBroker[ev.data.type]?.(ev.data);
+            });
+            trigger("IAmReady");
+            
+            
+            function subs(){
+                send({type: "subscribe", method: "modul2Event"});
+            }
+            
+        </script>
+        <textarea></textarea>
+    </body>
+</html>

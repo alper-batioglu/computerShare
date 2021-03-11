@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <style>
+            body{
+                background-color: green;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            window.addEventListener("message", (ev) => {
+                console.log("modul 2 reciv Msg", ev.origin, ev.data);
+            });
+            function send(data){
+                const targetWindow = parent;
+                const retVal = targetWindow.postMessage(data, "http://localhost:3005");
+                
+            }
+            function sendMessage(){
+                send({x:5, y:6, self:"modul2"});
+            }
+        //message: { method: string, type: "trigger", params?: Array<any> } | { method: string, type: "subscribe" }
+            function subs(){
+                send({type: "subscribe", method: "modul1Event"});
+            }
+            function trigger(){
+                send({type: "trigger", method: "modul2Event"});
+            }
+        </script>
+        <input type="button" onclick="sendMessage()"/>
+        <input type="button" onclick="subs()" value="subs"/>
+        <input type="button" onclick="trigger()" value="trigger"/>
+    </body>
+</html>

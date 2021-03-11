@@ -7,8 +7,12 @@
         </style>
     </head>
     <body>
+        <iframe></iframe>
         <script>
+            const url = "http://127.0.0.1:3001";
+            const targetFrame = document.getElementsByTagName("iframe")[0];
             window.addEventListener("message", (ev) => {
+                if (targetFrame.contentWindow != ev.source) { return; }// skip for this listener
                 console.log(ev.origin);
                 console.log(ev.data);
                 ev.data.replyFrom = "dis";
@@ -16,11 +20,11 @@
                 return ev.data;
             });
             function sendMessage(){
-                const targetWindow = document.getElementsByTagName("iframe")[0].contentWindow;
-                const retVal = targetWindow.postMessage({x:5, y:6, self:"dis"}, "http://127.0.0.1:5501");
+                const targetWindow = targetFrame.contentWindow;
+                const retVal = targetWindow.postMessage({x:5, y:6, self:"dis", /*dat: () => {console.log("aaa");}*/}, url);
             }
+            targetFrame.src = url + "/frame/ic.html";
         </script>
         <input type="button" onclick="sendMessage()"/>
-        <iframe src="http://127.0.0.1:5501/frame/ic.html"></iframe>
     </body>
 </html>

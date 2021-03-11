@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
+</head>
+
+<body>
+    <div style="text-align: center; font-size: 40px;">
+        <div id="guess">Keep a number</div>
+        <div>
+            <button id="ok" onclick="makeGuess()">Ok</button>
+            <button id="up">👆</button>
+            <button id="down">👇</button>
+        </div>
+    </div>
+</body>
+<script>
+    var get = document.getElementById.bind(document);
+    var guess = get("guess");
+    get("up").onclick = ev => {
+        min = lastGuess;
+        makeGuess();
+    }
+    get("down").onclick = ev => {
+        max = lastGuess;
+        makeGuess();
+    }
+    get("up").style.display = "none";
+    get("down").style.display = "none";
+
+    var min = 0, max = 100, lastGuess;
+    function makeGuess() {
+        var sum = min + max;
+        guess.innerHTML = lastGuess = Math.floor(sum / 2);
+        get("up").style.display = "initial";
+        get("down").style.display = "initial";
+        get("ok").style.display = "none";
+    }
+
+</script>
+
+</html>
